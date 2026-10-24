@@ -1,1 +1,392 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>WireGuard4582</title>
+<style>
+:root {
+  --accent: #00ffcc;
+  --accent2: #ff00aa;
+  --bg1: #01010a;
+  --bg2: #0a0020;
+  --glow1: rgba(0,255,204,0.4);
+  --glow2: rgba(255,0,170,0.35);
+  --text: #eef7ff;
+  --muted: #94a3b8;
+  --card: rgba(12,20,37,.92);
+  --border: #00ffcc40;
+  --radius: 28px;
+  --btn-r: 24px;
+}
+[data-theme="light"] {
+  --bg1: #f0f4f8;
+  --bg2: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --card: rgba(255,255,255,.92);
+  --border: #00ffcc55;
+  --glow1: #00ffcc22;
+  --glow2: #ff00aa18;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;background:var(--bg1);color:var(--text);font-family:Tahoma,"Segoe UI",system-ui,sans-serif;line-height:1.6;transition:background .3s,color .3s}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(circle at 15% 10%,var(--glow1),transparent 32%),
+  radial-gradient(circle at 85% 90%,var(--glow2),transparent 32%),
+  linear-gradient(160deg,var(--bg1),var(--bg2) 50%,var(--bg1))}
+.wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:12px 12px 70px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.status-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;font-weight:800;font-size:.78rem;border:none;cursor:default;
+  background:linear-gradient(135deg,#10b981,#34d399);color:#042f1a;box-shadow:0 0 20px rgba(16,185,129,.4)}
+.status-btn.off{background:linear-gradient(135deg,#ef4444,#f87171);color:#fff;box-shadow:0 0 16px rgba(239,68,68,.35)}
+.btn-set{padding:8px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);font-weight:800;font-size:.78rem;cursor:pointer;font-family:inherit}
+.brand{text-align:center;font-size:1.35rem;font-weight:900;letter-spacing:.06em;margin:4px 0;
+  background:linear-gradient(90deg,#fff,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+[data-theme="light"] .brand{background:linear-gradient(90deg,#0f172a,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero{text-align:center;padding:16px 14px;margin-bottom:12px;border-radius:var(--radius);
+  background:linear-gradient(145deg,var(--card),rgba(7,10,24,.75));
+  border:1px solid var(--border);box-shadow:0 12px 36px rgba(0,0,0,.25)}
+.hero h1{font-size:1.2rem;margin:6px 0;color:var(--text)}
+.hero p{color:var(--muted);font-size:.82rem}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.66rem;font-weight:800;
+  border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--accent);margin:3px}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:12px}
+.nav button{padding:10px 4px;border-radius:12px;border:1px solid rgba(148,163,184,.2);
+  background:var(--card);color:var(--muted);font-weight:800;font-size:.72rem;cursor:pointer;font-family:inherit}
+.nav button.on{color:#fff;border-color:var(--accent);background:linear-gradient(135deg,var(--accent)50,var(--accent2)30)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 10px 28px rgba(0,0,0,.2)}
+.card h2{font-size:.95rem;margin-bottom:10px;color:var(--text)}
+label{display:block;margin:8px 0 4px;font-size:.72rem;color:var(--muted);font-weight:800}
+input,select{width:100%;padding:11px 12px;background:rgba(3,8,17,.85);border:1px solid rgba(148,163,184,.22);
+  border-radius:10px;color:var(--text);font-size:15px;outline:none;font-family:inherit;margin-bottom:4px}
+[data-theme="light"] input,[data-theme="light"] select{background:#fff;border-color:#cbd5e1;color:#0f172a}
+input:focus,select:focus{border-color:var(--accent)}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:11px 13px;border:none;
+  border-radius:var(--btn-r);font-weight:800;font-size:.84rem;cursor:pointer;font-family:inherit;margin:3px 2px}
+.btn-go{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#061018;width:100%;margin-top:10px;padding:14px;font-size:.92rem}
+.btn-sm{padding:7px 10px;font-size:.72rem}
+.btn-blue{background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.4);color:#93c5fd}
+.btn-green{background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.4);color:#6ee7b7}
+.btn-red{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#fca5a5}
+.btn-cyan{background:linear-gradient(135deg,var(--accent)88,var(--accent2)66);color:#031018}
+.modes{display:flex;flex-wrap:wrap;gap:5px;margin:5px 0 8px}
+.modes button{padding:7px 11px;border-radius:9px;border:1px solid rgba(148,163,184,.2);
+  background:rgba(8,14,27,.7);color:var(--muted);font-weight:800;font-size:.74rem;cursor:pointer;font-family:inherit}
+.modes button.on{background:linear-gradient(135deg,var(--accent)40,var(--accent2)28);color:#fff;border-color:var(--accent)}
+.item{background:linear-gradient(145deg,rgba(10,22,38,.95),rgba(6,12,24,.92));border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+[data-theme="light"] .item{background:#fff;border-color:#e2e8f0}
+.item b{color:var(--accent);font-size:.95rem}
+.meta{font-size:.76rem;color:var(--muted);margin-top:3px}
+.dns{margin-top:6px;padding:8px;background:rgba(1,6,14,.7);border-radius:10px;direction:ltr;text-align:left;
+  font-family:monospace;font-size:.7rem;color:#8df6ff;line-height:1.7;word-break:break-all;border:1px solid var(--border)}
+[data-theme="light"] .dns{background:#f1f5f9;color:#0e7490}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.stat{background:rgba(15,28,47,.8);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center}
+[data-theme="light"] .stat{background:#f8fafc}
+.stat .n{font-size:1.15rem;font-weight:900;color:var(--accent)}
+.stat .l{font-size:.62rem;color:var(--muted)}
+.pill{display:inline-flex;padding:2px 8px;border-radius:999px;font-size:.66rem;font-weight:800;margin-right:3px}
+.pill-ok{background:rgba(84,247,178,.14);color:#72f7bf;border:1px solid rgba(84,247,178,.3)}
+.pill-off{background:rgba(255,66,100,.12);color:#ff9bad;border:1px solid rgba(255,66,100,.3)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(5,12,23,.96);
+  border:1px solid var(--accent);padding:12px 18px;border-radius:12px;z-index:99999;opacity:0;transition:.3s;
+  font-weight:800;max-width:90%;text-align:center;box-shadow:0 0 24px var(--accent)30;color:#eef7ff}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+#lock{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;
+  background:var(--bg1);padding:20px;
+  background-image:radial-gradient(circle at 30% 20%,var(--glow1),transparent 40%),radial-gradient(circle at 70% 80%,var(--glow2),transparent 40%)}
+#lock .box{background:linear-gradient(145deg,rgba(12,23,42,.96),rgba(6,10,23,.96));border:1px solid var(--accent)60;
+  border-radius:22px;padding:28px 22px;max-width:360px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.55)}
+#app{display:block}
+.sec{display:none}.sec.on{display:block}
+.empty{text-align:center;padding:24px 10px;color:var(--muted);font-size:.88rem}
+.footer{text-align:center;margin-top:14px;font-size:.68rem;color:var(--muted);line-height:1.6}
+.settings-panel{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:16px}
+.settings-panel.open{display:flex}
+.settings-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;max-width:360px;width:100%;max-height:85vh;overflow-y:auto}
+.settings-box h3{margin-bottom:12px;color:var(--accent)}
+.vol-bar{height:10px;background:rgba(0,0,0,.3);border-radius:999px;overflow:hidden;margin:8px 0;border:1px solid var(--border)}
+.vol-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
+.sub-link{direction:ltr;text-align:left;font-family:monospace;font-size:.72rem;color:#67e8f9;word-break:break-all;padding:8px;background:rgba(0,0,0,.3);border-radius:8px;margin-top:6px}
+[data-theme="light"] .sub-link{background:#f1f5f9;color:#0e7490}
+@media(max-width:420px){.row{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.nav{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body data-layout="aurora">
+<div class="bg"></div>
 
+<div id="lock">
+  <div class="box">
+    <div style="font-size:2.5rem;margin-bottom:6px">⚡</div>
+    <div style="font-size:.68rem;color:#6f879a;letter-spacing:.12em;margin-bottom:4px">WireGuard4582</div>
+    <h2 style="color:#fff;margin-bottom:4px;font-size:1.15rem">WireGuard4582</h2>
+    <p style="color:#94a3b8;font-size:.84rem;margin-bottom:12px">WireGuard4582</p>
+    <button type="button" class="btn btn-go" id="btnIn" onclick="doUnlock()">⚡ ورود</button>
+  </div>
+</div>
+
+<div id="app">
+  <div class="wrap">
+    <div class="topbar">
+      <button type="button" class="status-btn" id="statusBtn" onclick="togglePanelActive()" style="cursor:pointer;opacity:1;transition:opacity .25s,filter .25s">🟢 فعال</button>
+      <button type="button" class="btn-set" onclick="openSettings()">⚙️ تنظیمات</button>
+    </div>
+    <div class="brand" id="brandTitle">WireGuard4582</div>
+    <div class="hero">
+      <div style="font-size:.65rem;color:var(--muted);letter-spacing:.1em" id="heroSub">FULL-ISP-REGISTERED · HEADSHOT</div>
+      <h1 id="heroTitle">WireGuard4582</h1>
+      <p id="heroDesc">WireGuard4582 · نئون کوانتوم</p>
+      <div style="margin-top:8px">
+        <span class="badge" id="bSlots">سقف 1000</span>
+        <span class="badge" id="bVol">100000000 GB</span>
+        <span class="badge" id="bTime">2 ماه</span>
+      </div>
+      <div class="vol-bar" id="volBarWrap" style=""><div class="vol-fill" id="volFill" style="width:0%"></div></div>
+      <div style="font-size:.7rem;color:var(--muted);margin-top:4px" id="volLabel"></div>
+    </div>
+
+    <div class="nav">
+      <button type="button" class="on" id="n1" onclick="goTab(1)">⚡ ساخت</button>
+      <button type="button" id="n2" onclick="goTab(2)">◈ پروفایل</button>
+    </div>
+
+    <div class="card sec on" id="s1">
+      <h2 id="tMake">🚀 ساخت کانفیگ</h2>
+      <div id="srvWrap">
+        <label id="lSrv">🌍 سرور مقصد</label>
+        <select id="srv"></select>
+      </div>
+      <label id="lName">✨ نام کانفیگ</label>
+      <input type="text" id="name" placeholder="HEADSHOT-VIP" />
+      <div class="row">
+        <div><label id="lDays">⏱ روز</label><input type="number" id="days" value="60" min="1" max="365"/></div>
+        <div><label id="lGb">💾 GB</label><input type="number" id="gb" value="1000" min="1" max="100000000"/></div>
+        <div><label id="lUsers">👥 کاربر</label><input type="number" id="users" value="1" min="1" max="50"/></div>
+      </div>
+      <label id="lIp">🌐 IP</label>
+      <div class="modes" id="ipModes">
+        <button type="button" class="on" data-v="v4" onclick="setIp('v4')">IPv4</button>
+        <button type="button" data-v="v6" onclick="setIp('v6')">IPv6</button>
+        <button type="button" data-v="dual" onclick="setIp('dual')">Dual</button>
+      </div>
+      <label id="lVip">🎖 VIP / تانل</label>
+      <div class="modes" id="vipModes">
+        <button type="button" class="on" data-v="std" onclick="setVip('std')">Standard</button>
+        <button type="button" data-v="vip" onclick="setVip('vip')">⭐ VIP</button>
+        <button type="button" data-v="tunnel" onclick="setVip('tunnel')">🔀 Tunnel</button>
+      </div>
+      <div id="tunnelWrap" style="display:none">
+        <label id="lTunnel">کشور دوم (تانل)</label>
+        <select id="tunnelCountry"></select>
+      </div>
+      <button type="button" class="btn btn-go" id="btnMake" onclick="doMake()">⚡ تولید کانفیگ</button>
+    </div>
+
+    <div class="card sec" id="s2">
+      <h2 id="tList">◈ پروفایل‌ها</h2>
+      <div id="list"><div class="empty">—</div></div>
+    </div>
+
+    <div style="display:none"><div id="subList"></div><div id="dash"></div></div>
+
+    <p class="footer" id="footerTxt">WireGuard4582 · شبکه جهانی<br>WireGuard4582 · Layout aurora</p>
+  </div>
+</div>
+
+<div class="settings-panel" id="settingsPanel">
+  <div class="settings-box" style="max-width:400px">
+    <h3 id="setTitle">⚙️ تنظیمات</h3>
+    <label id="setStatusLbl">وضعیت پنل</label>
+    <div style="margin-bottom:14px">
+      <button type="button" class="status-btn" id="setStatusBtn" onclick="togglePanelActive()" style="cursor:pointer;width:100%;justify-content:center">🟢 فعال</button>
+      <p style="font-size:.72rem;color:var(--muted);margin-top:6px" id="setStatusHint">با خاموش کردن، ساخت کانفیگ و ساب غیرفعال می‌شود</p>
+    </div>
+    <label id="setLang">زبان / Language</label>
+    <div class="modes" style="margin-bottom:12px">
+      <button type="button" class="on" id="langFa" onclick="setLang('fa')">فارسی</button>
+      <button type="button" id="langEn" onclick="setLang('en')">English</button>
+    </div>
+    <label id="setTheme">حالت نمایش</label>
+    <div class="modes" style="margin-bottom:12px">
+      <button type="button" class="on" id="themeDark" onclick="setTheme('dark')">🌙 تاریک</button>
+      <button type="button" id="themeLight" onclick="setTheme('light')">☀️ روشن</button>
+    </div>
+    <label id="setSubLbl">🔗 مدیریت ساب و فایل</label>
+    <p style="font-size:.75rem;color:var(--muted);margin-bottom:8px" id="subHint">هر کانفیگ لینک ساب جدا با QR و رنگ اختصاصی دارد</p>
+    <div id="setSubList" style="max-height:220px;overflow-y:auto;margin-bottom:12px"><div class="empty">—</div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+      <button type="button" class="btn btn-sm btn-green" onclick="downloadAllConfs()" id="btnDlAll">⬇️ دانلود همه کانفیگ‌ها</button>
+      <button type="button" class="btn btn-sm btn-blue" onclick="copyAllConfs()" id="btnCopyAll">📋 کپی همه فعال‌ها</button>
+    </div>
+    <div id="setDash" style="margin-bottom:12px;font-size:.8rem;color:var(--muted)"></div>
+    <button type="button" class="btn btn-go" onclick="closeSettings()" id="setClose">بستن</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+var SERVER_LIST = [
+  {code:"de", name:"آلمان", flag:"🇩🇪", city:"فرانکفورت", dnsBases:["85.214.","46.38.","5.9."], dnsV6Bases:["2a01:4f8:","2a01:4f9:"]},
+  {code:"sa", name:"عربستان", flag:"🇸🇦", city:"ریاض", dnsBases:["212.138.","37.224.","185.120."], dnsV6Bases:["2a02:ce0:"]},
+  {code:"nl", name:"هلند", flag:"🇳🇱", city:"آمستردام", dnsBases:["94.232.","185.107.","95.211."], dnsV6Bases:["2a02:180:"]},
+  {code:"be", name:"بلژیک", flag:"🇧🇪", city:"بروکسل", dnsBases:["195.238.","109.130."], dnsV6Bases:["2a02:a00:"]},
+  {code:"fr", name:"فرانسه", flag:"🇫🇷", city:"پاریس", dnsBases:["51.15.","163.172.","212.129."], dnsV6Bases:["2a01:e0a:"]},
+  {code:"tr", name:"ترکیه", flag:"🇹🇷", city:"استانبول", dnsBases:["78.135.","85.96.","95.0."], dnsV6Bases:["2a02:e00:"]},
+  {code:"us", name:"آمریکا", flag:"🇺🇸", city:"نیویورک", dnsBases:["104.16.","172.64.","23.227."], dnsV6Bases:["2606:4700:"]},
+  {code:"ir", name:"ایران", flag:"🇮🇷", city:"تهران", dnsBases:["5.201.","37.32.","46.209."], dnsV6Bases:["2a03:b0c0:"]},
+  {code:"ae", name:"امارات", flag:"🇦🇪", city:"دبی", dnsBases:["94.200.","5.195.","2.50."], dnsV6Bases:["2a00:f28:"]},
+  {code:"fi", name:"فنلاند", flag:"🇫🇮", city:"هلسینکی", dnsBases:["37.219.","91.153.","95.216."], dnsV6Bases:["2a01:4f8:"]}
+];
+
+var D = {
+  "id":"wg_mvjpn3oi_j2yko6",
+  "countryCode":"de",
+  "countryName":"آلمان",
+  "flag":"🇩🇪",
+  "city":"فرانکفورت",
+  "totalSlots":1000,
+  "multiServer":true,
+  "servers":SERVER_LIST,
+  "allServers":SERVER_LIST,
+  "dnsBases":["85.214.","46.38.","5.9."],
+  "dnsV6Bases":["2a01:4f8:"],
+  "configs":[],
+  "password":"",
+  "active":true,
+  "storageKey":"wg_v9_vol_wgmvjpn3oij2yko6",
+  "cfgStorageKey":"wg_v9_cfg_wgmvjpn3oij2yko6",
+  "username":"admin",
+  "volumeGB":100000000,
+  "usedVolumeGB":0,
+  "months":2,
+  "expiresAt":"2026-12-24T15:43:08.129Z",
+  "createdAt":"2026-10-22T15:43:08.130Z"
+};
+
+var CONFIGS = [];
+var ipMode = "v4";
+var vipMode = "std";
+var unlocked = true;
+var hardOff = false;
+var lang = "fa";
+var usedVol = 0;
+
+if(D.password) D.password = String(D.password).trim();
+else D.password = "";
+if(D.username) D.username = String(D.username).trim();
+else D.username = "";
+try{
+  var _act = localStorage.getItem("wg_v9_act_"+D.id);
+  if(_act === "0") D.active = false;
+  else if(_act === "1") D.active = true;
+}catch(e){}
+D._hardDisabled = !!hardOff; if(hardOff) D.active = false;
+
+function $(id){ return document.getElementById(id); }
+function toast(m){
+  var t = $("toast");
+  if(!t){ try{alert(m);}catch(e){} return; }
+  t.textContent = m;
+  t.className = "toast show";
+  setTimeout(function(){ t.className = "toast"; }, 2800);
+}
+
+function loadVol(){
+  try{
+    var r = localStorage.getItem(D.storageKey);
+    if(r){
+      var o = JSON.parse(r);
+      usedVol = Number(o.used) || 0;
+    } else {
+      usedVol = Number(D.usedVolumeGB) || 0;
+      saveVol();
+    }
+  }catch(e){ usedVol = Number(D.usedVolumeGB) || 0; }
+}
+function saveVol(){
+  try{ localStorage.setItem(D.storageKey, JSON.stringify({ used: usedVol, updated: Date.now() })); }catch(e){}
+}
+function load(){
+  try{
+    var r = localStorage.getItem(D.cfgStorageKey);
+    if(r) CONFIGS = JSON.parse(r);
+    else CONFIGS = Array.isArray(D.configs) ? D.configs.slice() : [];
+  }catch(e){ CONFIGS = Array.isArray(D.configs) ? D.configs.slice() : []; }
+  if(!Array.isArray(CONFIGS)) CONFIGS = [];
+  for(var i=0;i<CONFIGS.length;i++){
+    var c = CONFIGS[i]; if(!c) continue;
+    if(!c.dns && c.dnsList) c.dns = c.dnsList;
+    if(!c.confText && c.conf) c.confText = c.conf;
+    if(c.inSub === undefined) c.inSub = true;
+  }
+}
+function save(){ try{ localStorage.setItem(D.cfgStorageKey, JSON.stringify(CONFIGS)); }catch(e){} }
+
+function isExpired(){
+  if(D.expiresAt){
+    if(Date.now() > new Date(D.expiresAt).getTime()) return true;
+  }
+  return false;
+}
+function isVolFull(){
+  if(D.volumeGB > 0 && usedVol >= D.volumeGB) return true;
+  return false;
+}
+function panelWorks(){
+  return D.active && !isExpired() && !isVolFull();
+}
+function updateStatus(){
+  var btn = $("statusBtn");
+  var sbtn = $("setStatusBtn");
+  var works = panelWorks();
+  var labelOn = lang==="en" ? "🟢 Active" : "🟢 فعال";
+  var reason = !D.active ? (lang==="en"?"Off":"خاموش") : (isExpired() ? (lang==="en"?"Expired":"منقضی") : (isVolFull() ? (lang==="en"?"Volume full":"حجم تمام") : (lang==="en"?"Off":"خاموش")));
+  var labelOff = "🔴 " + reason;
+  function apply(el){
+    if(!el) return;
+    if(works){
+      el.className = "status-btn";
+      el.innerHTML = labelOn;
+      el.style.opacity = "1";
+      el.style.filter = "none";
+    } else {
+      el.className = "status-btn off";
+      el.innerHTML = labelOff;
+      el.style.opacity = "0.55";
+      el.style.filter = "grayscale(0.35)";
+    }
+  }
+  apply(btn); apply(sbtn);
+  var fill = $("volFill");
+  var label = $("volLabel");
+  if(D.volumeGB > 0){
+    var pct = Math.min(100, (usedVol / D.volumeGB) * 100);
+    if(fill) fill.style.width = pct.toFixed(1) + "%";
+    if(label) label.textContent = (lang==="en" ? "Used: " : "مصرف: ") + usedVol.toFixed(2) + " / " + D.volumeGB + " GB";
+  }
+}
+
+window.doUnlock = function(){
+  try {
+    loadVol();
+    unlocked = true;
+    var lock = $("lock");
+    var app = $("app");
+    if(lock) lock.style.display = "none";
+    if(app) app.style.display = "block";
+    load();
+    initSrv();
+    goTab(1);
+    draw();
+    updateStatus();
+  } catch(e) { console.error(e); }
+};
+
+window.goTab = function(n){
+  var ids = ["s1","s2"];
+  var nids = [
